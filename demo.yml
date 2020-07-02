@@ -1,0 +1,40 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k8s-bg
+  labels:
+    name: k8s-bg
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: k8s-bg
+      version: gunns
+  template:
+    metadata:
+      name: k8s-bg
+      labels:
+        name: k8s-bg
+        version: gunns
+    spec:
+      containers:
+      - image: dockergunn/bg:v2.2
+        name: k8s-bg
+        ports:
+        - name: k8s-bg
+          containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: k8s-bg
+  labels:
+    name: k8s-bg
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+  selector:
+    name: k8s-bg
+    version: gunns		  
